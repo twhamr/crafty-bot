@@ -5,7 +5,7 @@ import re
 
 class FileHandler:
     def __init__(self) -> None:
-        self.log_root_path = "./log"
+        self.log_root_path = "./logs"
     
     @staticmethod
     def normalize_filename(filename: str, max_length: int = 255) -> str:

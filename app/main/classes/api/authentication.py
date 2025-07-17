@@ -1,7 +1,6 @@
-import requests
 from typing import Any
 
-from handlers.api_handler import APIHandler
+from app.main.handlers.api_handler import APIHandler
 
 class AuthenticationRequests(APIHandler):
     # Log out every single session the token's user has

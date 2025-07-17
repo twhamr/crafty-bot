@@ -15,7 +15,7 @@ import pymysql.cursors
 import pymysql
 import json
 
-from handlers.log_handler import LogHandler
+from app.main.handlers.log_handler import LogHandler
 
 
 # Load DB credentials stored locally

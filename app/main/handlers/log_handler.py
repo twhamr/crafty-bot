@@ -2,7 +2,7 @@ from typing import Any
 from datetime import datetime, timezone
 import json
 
-from handlers.file_handler import FileHandler
+from app.main.handlers.file_handler import FileHandler
 
 class LogHandler:
     def __init__(self) -> None:

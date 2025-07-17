@@ -1,13 +1,13 @@
 from typing import Any
 
-from handlers.api_handler import APIHandler
+from app.main.handlers.api_handler import APIHandler
 
 
 class ServerRequests(APIHandler):
     # ------ METHOD: GET ------
 
     # Get all servers
-    def get_all_servers(self) -> list[dict[str, Any]]: # type: ignore
+    def get_all_servers(self) -> list[dict[str, Any]]:
         """
         Get all servers' data.
 
@@ -32,11 +32,13 @@ class ServerRequests(APIHandler):
         # Make request using given parameters
         response = self.get_request(endpoint=endpoint, headers=headers)
 
-        if response["data"]: # type: ignore
-            return response["data"] # type: ignore
+        if response['data']:
+            return response['data']
+        else:
+            return response['error']
 
     # Get a server
-    def get_server(self, server_id: str) -> dict[str, Any]: # type: ignore
+    def get_server(self, server_id: str) -> dict[str, Any]:
         """
         Get a server's details
 
@@ -63,9 +65,11 @@ class ServerRequests(APIHandler):
         response = self.get_request(endpoint=endpoint,
                                     headers=headers)
 
-        if response["data"]: # type: ignore
-            return response["data"] # type: ignore
-
+        if response['data']:
+            return response['data']
+        else:
+            return response['error']
+    
     # Get a server's logs
     def get_server_logs(self, server_id: str, file: bool = False, colors: bool = False,
                         raw: bool = False, html: bool = False):

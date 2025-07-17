@@ -1,2 +1,4 @@
 venv
-log
+logs
+__pycache__
+JSON

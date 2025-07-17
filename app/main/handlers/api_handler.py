@@ -3,7 +3,7 @@ import requests
 import json
 
 from database import Database
-from handlers.log_handler import LogHandler
+from app.main.handlers.log_handler import LogHandler
 
 class APIHandler:
     def __init__(self) -> None:
@@ -20,7 +20,7 @@ class APIHandler:
                     headers: dict[str, Any] = {},
                     query_params: dict[str, Any] = {},
                     json_request: dict[str, Any] = {},
-                    body: str = ""):
+                    body: str = "") -> dict[str, Any]:
         
         # Make the HTTP request
         response = requests.get(url=(self.host + endpoint),
@@ -42,6 +42,8 @@ class APIHandler:
 
             self.logger.create_log(location="api",
                     message=f"{response.status_code} Error: {response.reason} | reason={error['error']} | details={error['error_data']}")
+            
+            return error
 
 
     def post_request(self,
@@ -49,7 +51,7 @@ class APIHandler:
                      headers: dict[str, Any] = {},
                      query_params: dict[str, Any] = {},
                      json_request: dict[str, Any] = {},
-                     body: str = ""):
+                     body: str = "") -> dict[str, Any]:
         
         # Make the HTTP request
         response = requests.post(url=(self.host + endpoint),
@@ -71,6 +73,8 @@ class APIHandler:
 
             self.logger.create_log(location="api",
                     message=f"{response.status_code} Error: {response.reason} | reason={error['error']} | details={error['error_data']}")
+            
+            return error
 
 
     def patch_request(self,
@@ -78,7 +82,7 @@ class APIHandler:
                       headers: dict[str, Any] = {},
                       query_params: dict[str, Any] = {},
                       json_request: dict[str, Any] = {},
-                      body: str = ""):
+                      body: str = "") -> dict[str, Any]:
         
         # Make the HTTP request
         response = requests.patch(url=(self.host + endpoint),
@@ -100,6 +104,8 @@ class APIHandler:
 
             self.logger.create_log(location="api",
                     message=f"{response.status_code} Error: {response.reason} | reason={error['error']} | details={error['error_data']}")
+            
+            return error
 
 
     def delete_request(self,
@@ -107,7 +113,7 @@ class APIHandler:
                        headers: dict[str, Any] = {},
                        query_params: dict[str, Any] = {},
                        json_request: dict[str, Any] = {},
-                       body: str = ""):
+                       body: str = "") -> dict[str, Any]:
         
         # Make the HTTP request
         response = requests.delete(url=(self.host + endpoint),
@@ -129,3 +135,5 @@ class APIHandler:
 
             self.logger.create_log(location="api",
                     message=f"{response.status_code} Error: {response.reason} | reason={error['error']} | details={error['error_data']}")
+            
+            return error
