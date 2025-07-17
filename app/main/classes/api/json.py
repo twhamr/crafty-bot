@@ -1,6 +1,6 @@
 from typing import Any
 
-from app.handlers.api_handler import APIHandler
+from handlers.api_handler import APIHandler
 
 class JSONRequests(APIHandler):
     # ------ METHOD: GET ------

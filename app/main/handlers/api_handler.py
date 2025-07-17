@@ -3,7 +3,7 @@ import requests
 import json
 
 from database import Database
-from app.handlers.log_handler import LogHandler
+from handlers.log_handler import LogHandler
 
 class APIHandler:
     def __init__(self) -> None:

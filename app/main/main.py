@@ -1,4 +1,4 @@
-from app.classes.api.servers import ServerRequests
+from classes.api.servers import ServerRequests
 
 
 def main():
