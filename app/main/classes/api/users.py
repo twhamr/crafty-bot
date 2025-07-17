@@ -1,0 +1,112 @@
+from typing import Any
+
+from app.handlers.api_handler import APIHandler
+
+class UserRequests(APIHandler):
+    # ------ METHOD: GET ------
+
+    # Get all the users
+    def get_all_users(self):
+        # Set endpoint for API call
+        endpoint = "/users"
+
+        # Set headers for request
+        headers = {
+            "Authorization": f"Bearer {self.api_key}",
+            "Content-Type": "application/json"
+        }
+
+        # Make request using given parameters
+        response = self.get_request(endpoint=endpoint,
+                                    headers=headers)
+
+        return response
+
+    # Get a user
+    def get_user(self, user_id: int):
+        # Set endpoint for API call
+        endpoint = f"/users/{user_id}"
+
+        # Set headers for request
+        headers = {
+            "Authorization": f"Bearer {self.api_key}",
+            "Content-Type": "application/json"
+        }
+
+        # Make request using given parameters
+        response = self.get_request(endpoint=endpoint,
+                                    headers=headers)
+
+        return response
+
+    # Get a user's Crafty permissions
+    def get_user_permissions(self, user_id: int):
+        # Set endpoint for API call
+        endpoint = f"/users/{user_id}/permissions"
+
+        # Set headers for request
+        headers = {
+            "Authorization": f"Bearer {self.api_key}",
+            "Content-Type": "application/json"
+        }
+
+        # Make request using given parameters
+        response = self.get_request(endpoint=endpoint,
+                                    headers=headers)
+
+        return response
+
+    # Get a user's profile picture
+    def get_user_picture(self, user_id: int):
+        # Set endpoint for API call
+        endpoint = f"/users/{user_id}/pfp"
+
+        # Set headers for request
+        headers = {
+            "Authorization": f"Bearer {self.api_key}",
+            "Content-Type": "application/json"
+        }
+
+        # Make request using given parameters
+        response = self.get_request(endpoint=endpoint,
+                                    headers=headers)
+
+        return response
+
+    # Get a user's public data
+    def get_user_public_data(self, user_id: int):
+        # Set endpoint for API call
+        endpoint = f"/users/{user_id}/public"
+
+        # Set headers for request
+        headers = {
+            "Authorization": f"Bearer {self.api_key}",
+            "Content-Type": "application/json"
+        }
+
+        # Make request using given parameters
+        response = self.get_request(endpoint=endpoint,
+                                    headers=headers)
+
+        return response
+
+
+    # ------ METHOD: POST ------
+
+    # Create a user
+    def create_user(self):
+        pass
+
+
+    # ------ METHOD: PATCH ------
+
+    # Modify a user
+    def modify_user(self):
+        pass
+
+
+    # ------ METHOD: DELETE ------
+    
+    # Delete a user
+    def delete_user(self):
+        pass
