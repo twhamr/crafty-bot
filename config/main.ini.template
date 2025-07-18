@@ -1,5 +1,5 @@
 # twhamr - Discord Bot (CraftyBot) w/ custom API Integration for Crafty Controller
-# main config file, necessary for initial run and setting up the API Integration
+# main.ini template file, necessary for initial run and setting up application
 
 # General
 [general]
