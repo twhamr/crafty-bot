@@ -1,5 +1,4 @@
 import unicodedata
-import json
 import os
 import re
 

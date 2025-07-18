@@ -1,10 +1,37 @@
 from typing import Any
-from config_handler import ConfigHandler
+import configparser
 import os
 
-def setup_config_file() -> None:
-    if not os.path.exists(path="./config/main.ini"):
-        ConfigHandler(config_path="./config/main.ini").sync()
-        print("Config file created")
-    else:
-        print("Config file already exists")
+from app.main.handlers.file_handler import FileHandler
+
+class ConfigHandler(FileHandler):
+    def __init__(self) -> None:
+        self.config_root_path = "./config"
+        self.parser = configparser.ConfigParser()
+
+    def setup_main_config(self) -> None:
+        if not os.path.exists(path=f"{self.config_root_path}/main.ini"):
+            writer = configparser.ConfigParser()
+
+            self.parser.read(filenames=f"{self.config_root_path}/main.ini.template")
+
+            template = {}
+            for section in self.parser.sections():
+                template.update({section: dict(self.parser[section])})
+            
+            
+            for section in template:
+                writer[section] = template[section]
+
+            with open(file=f"{self.config_root_path}/main.ini", mode="w") as file:
+                writer.write(file)
+
+            #print("Config file created")
+        else:
+            print("Config file already exists")
+    
+    # TODO: finish reading api section in main.ini
+    def read_api(self):
+        pass
+
+    # TODO: finish reading other sections

@@ -1,8 +1,11 @@
 from app.main.classes.api.servers import ServerRequests
-import app.main.handlers.config_handler as config
+from app.main.handlers.config_handler import ConfigHandler
 
 def main():
-    config.setup_config_file()
+    # TODO: refactor project to remove database and only use config file
+    config = ConfigHandler()
+
+    config.setup_main_config()
 
     #servers = ServerRequests()
 

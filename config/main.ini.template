@@ -13,14 +13,6 @@ password = YOUR_CRAFTY_PASSWORD
 api_url = YOUR_CRAFTY_API_URL
 api_key = YOUR_CRAFTY_API_KEY
 
-# MariaDB
-[mariadb]
-enabled = true
-host = localhost
-username = root
-password = craftyBot1234
-database = crafty
-
 # Discord
 [discord]
 enabled = true
