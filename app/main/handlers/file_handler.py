@@ -3,9 +3,6 @@ import os
 import re
 
 class FileHandler:
-    def __init__(self) -> None:
-        self.log_root_path = "./logs"
-    
     @staticmethod
     def normalize_filename(filename: str, max_length: int = 255) -> str:
         """
@@ -44,9 +41,3 @@ class FileHandler:
             safe_str += "_file"
 
         return safe_str or "default_filename"
-
-    def save_log(self, location: str, filename: str, log: str) -> None:
-        file_path = f"{self.log_root_path}/{location}/{self.normalize_filename(filename=filename)}"
-
-        with open(file=file_path, mode="a") as log_file:
-            log_file.write(log + "\n")

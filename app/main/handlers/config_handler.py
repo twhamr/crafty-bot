@@ -9,6 +9,7 @@ class ConfigHandler(FileHandler):
         self.config_root_path = "./config"
         self.parser = configparser.ConfigParser()
 
+
     def setup_main_config(self) -> None:
         if not os.path.exists(path=f"{self.config_root_path}/main.ini"):
             writer = configparser.ConfigParser()
@@ -30,8 +31,20 @@ class ConfigHandler(FileHandler):
         else:
             print("Config file already exists")
     
-    # TODO: finish reading api section in main.ini
-    def read_api(self):
-        pass
 
-    # TODO: finish reading other sections
+    def read_api(self) -> dict[str, Any]:
+        self.parser.read(filenames=f"{self.config_root_path}/main.ini")
+
+        return dict(self.parser['api'])
+
+
+    def read_discord(self) -> dict[str, Any]:
+        self.parser.read(filenames=f"{self.config_root_path}/main.ini")
+
+        return dict(self.parser['discord'])
+
+
+    def read_logging(self) -> dict[str, Any]:
+        self.parser.read(filenames=f"{self.config_root_path}/main.ini")
+
+        return dict(self.parser['logging'])

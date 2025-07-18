@@ -15,10 +15,9 @@ api_key = YOUR_CRAFTY_API_KEY
 
 # Discord
 [discord]
-enabled = true
+guild_id = YOUR_SERVER_ID
 bot_token = DISCORD_BOT_TOKEN
 
 # Logging
 [logging]
-enabled = true
-dir_path = ./logs
+root_path = ./logs

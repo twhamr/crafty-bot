@@ -2,16 +2,20 @@ from typing import Any
 import requests
 import json
 
-from database import Database
+from app.main.handlers.config_handler import ConfigHandler
 from app.main.handlers.log_handler import LogHandler
 
 class APIHandler:
     def __init__(self) -> None:
-        db = Database()
-
-        self.api_key= db.pull_user_key()
-        self.host = "https://192.168.1.158:8443/api/v2"
+        self.config = ConfigHandler()
         self.logger = LogHandler()
+
+        api = self.config.read_api()
+
+        self.username = api['username']
+        self.password = api['password']
+        self.api_key= api['api_key']
+        self.host = api['api_url']        
         self.verify = False
 
 
