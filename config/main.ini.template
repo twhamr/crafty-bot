@@ -1,0 +1,32 @@
+# twhamr - Discord Bot (CraftyBot) w/ custom API Integration for Crafty Controller
+# main config file, necessary for initial run and setting up the API Integration
+
+# General
+[general]
+app_name = "CraftyBot"
+version = 0.0.0
+
+# Crafty API
+[api]
+username = YOUR_CRAFTY_USERNAME
+password = YOUR_CRAFTY_PASSWORD
+api_url = YOUR_CRAFTY_API_URL
+api_key = YOUR_CRAFTY_API_KEY
+
+# MariaDB
+[mariadb]
+enabled = true
+host = localhost
+username = root
+password = craftyBot1234
+database = crafty
+
+# Discord
+[discord]
+enabled = true
+bot_token = DISCORD_BOT_TOKEN
+
+# Logging
+[logging]
+enabled = true
+dir_path = ./logs
