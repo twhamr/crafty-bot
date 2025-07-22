@@ -18,11 +18,11 @@ class LogHandler(FileHandler):
         timestamp = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S")
         date = timestamp[:10]
         
-        print(f"[{timestamp}] [{location}] {message}")
-        self.files.save_log(location=location, filename=f"{date}-{location}.log", log=f"[{timestamp}] [{location}] {message}")
+        #print(f"[{timestamp}] [{location}] {message}")
+        self.save_log(location=location, filename=f"{date}-{location}.log", log=f"[{timestamp}] [{location}] {message}")
 
     def save_log(self, location: str, filename: str, log: str) -> None:
-        file_path = f"{self.log_root_path}/{location}/{self.normalize_filename(filename=filename)}"
+        file_path = f"{self.log_root_path}/{self.normalize_filename(filename=filename)}"
 
         with open(file=file_path, mode="a") as log_file:
             log_file.write(log + "\n")

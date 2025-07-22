@@ -7,7 +7,7 @@ class ServerRequests(APIHandler):
     # ------ METHOD: GET ------
 
     # Get all servers
-    def get_all_servers(self) -> list[dict[str, Any]]:
+    def get_all_servers(self) -> list[dict[str, Any]] | None:
         """
         Get all servers' data.
 
@@ -34,11 +34,10 @@ class ServerRequests(APIHandler):
 
         if response['data']:
             return response['data']
-        else:
-            return response['error']
+
 
     # Get a server
-    def get_server(self, server_id: str) -> dict[str, Any]:
+    def get_server(self, server_id: str) -> dict[str, Any] | None:
         """
         Get a server's details
 
@@ -67,8 +66,7 @@ class ServerRequests(APIHandler):
 
         if response['data']:
             return response['data']
-        else:
-            return response['error']
+
     
     # Get a server's logs
     def get_server_logs(self, server_id: str, file: bool = False, colors: bool = False,
