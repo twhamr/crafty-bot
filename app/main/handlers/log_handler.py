@@ -1,5 +1,5 @@
 from typing import Any
-from datetime import datetime, timezone
+from datetime import datetime
 import json
 
 from app.main.handlers.config_handler import ConfigHandler
@@ -15,7 +15,7 @@ class LogHandler(FileHandler):
 
 
     def create_log(self, location: str, message: str) -> None:
-        timestamp = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S")
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         date = timestamp[:10]
         
         #print(f"[{timestamp}] [{location}] {message}")
