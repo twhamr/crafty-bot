@@ -36,7 +36,7 @@ class APIHandler:
         
         # If response returns successful
         if response.status_code == 200:
-            self.logger.create_log(location="api",
+            self.logger.create_log(category="api",
                                    message=f"{response.status_code} OK: successful response | endpoint={endpoint}")
             
             return response.json()
@@ -44,7 +44,7 @@ class APIHandler:
         else:
             error = response.json()
 
-            self.logger.create_log(location="api",
+            self.logger.create_log(category="api",
                     message=f"{response.status_code} Error: {response.reason} | reason={error['error']} | details={error['error_data']}")
             
             return error
@@ -67,7 +67,7 @@ class APIHandler:
         
         # If response returns successful
         if response.status_code == 200:
-            self.logger.create_log(location="api",
+            self.logger.create_log(category="api",
                                    message=f"{response.status_code} OK: successful response | endpoint={endpoint}")
 
             return response.json()
@@ -75,7 +75,7 @@ class APIHandler:
         else:
             error = response.json()
 
-            self.logger.create_log(location="api",
+            self.logger.create_log(category="api",
                     message=f"{response.status_code} Error: {response.reason} | reason={error['error']} | details={error['error_data']}")
             
             return error
@@ -98,7 +98,7 @@ class APIHandler:
         
         # If response returns successful
         if response.status_code == 200:
-            self.logger.create_log(location="api",
+            self.logger.create_log(category="api",
                                    message=f"{response.status_code} OK: successful response | endpoint={endpoint}")
 
             return response.json()
@@ -106,7 +106,7 @@ class APIHandler:
         else:
             error = response.json()
 
-            self.logger.create_log(location="api",
+            self.logger.create_log(category="api",
                     message=f"{response.status_code} Error: {response.reason} | reason={error['error']} | details={error['error_data']}")
             
             return error
@@ -129,7 +129,7 @@ class APIHandler:
         
         # If response returns successful
         if response.status_code == 200:
-            self.logger.create_log(location="api",
+            self.logger.create_log(category="api",
                                    message=f"{response.status_code} OK: successful response | endpoint={endpoint}")
 
             return response.json()
@@ -137,7 +137,7 @@ class APIHandler:
         else:
             error = response.json()
 
-            self.logger.create_log(location="api",
+            self.logger.create_log(category="api",
                     message=f"{response.status_code} Error: {response.reason} | reason={error['error']} | details={error['error_data']}")
             
             return error

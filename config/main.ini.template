@@ -20,4 +20,6 @@ bot_token = DISCORD_BOT_TOKEN
 
 # Logging
 [logging]
+enabled = True
 root_path = ./logs
+timezone = TIMEZONE_OVERRIDE

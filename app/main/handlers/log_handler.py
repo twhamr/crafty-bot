@@ -14,14 +14,14 @@ class LogHandler(FileHandler):
         self.log_root_path = logs['root_path']
 
 
-    def create_log(self, location: str, message: str) -> None:
+    def create_log(self, category: str, message: str) -> None:
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         date = timestamp[:10]
         
-        #print(f"[{timestamp}] [{location}] {message}")
-        self.save_log(location=location, filename=f"{date}-{location}.log", log=f"[{timestamp}] [{location}] {message}")
+        #print(f"[{timestamp}] [{category}] {message}")
+        self.save_log(category=category, filename=f"{date}-{category}.log", log=f"[{timestamp}] [{category}] {message}")
 
-    def save_log(self, location: str, filename: str, log: str) -> None:
+    def save_log(self, category: str, filename: str, log: str) -> None:
         file_path = f"{self.log_root_path}/{self.normalize_filename(filename=filename)}"
 
         with open(file=file_path, mode="a") as log_file:
