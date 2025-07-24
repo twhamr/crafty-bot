@@ -113,7 +113,7 @@ class ServerRequests(APIHandler):
         return response
 
     # Get a server's statistics
-    def get_server_stats(self, server_id: str):
+    def get_server_stats(self, server_id: str) -> dict[str, Any] | None:
         # Set endpoint for API call
         endpoint = f"/servers/{server_id}/stats"
 
@@ -127,7 +127,8 @@ class ServerRequests(APIHandler):
         response = self.get_request(endpoint=endpoint,
                                     headers=headers)
 
-        return response
+        if response['data']:
+            return response['data']
 
     # Get everyone with internal access to a server
     def get_server_access(self, server_id: str):
