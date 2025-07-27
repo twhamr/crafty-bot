@@ -1,7 +1,6 @@
 from typing import Any
-import discord
-from discord.ext import commands
-from discord import app_commands
+import nextcord
+from nextcord.ext import commands
 
 from app.main.handlers.log_handler import LogHandler
 from app.main.handlers.config_handler import ConfigHandler
@@ -12,89 +11,92 @@ logger = LogHandler()
 
 api_server = ServerRequests()
 
-discord_info = config.read_config(section="discord")
-GUILD_ID = discord.Object(id=discord_info['guild_id'])
-BOT_TOKEN = discord_info['bot_token']
+discord = config.read_config(section="discord")
 
-def select_online(server_ids: list[str]) -> list[dict[str, Any]]:
-    output = []
-
-    for server_id in server_ids:
-        stats = api_server.get_server_stats(server_id=server_id)
-
-        if stats['running']:
-            output.append(stats)
-    
-    return output
-
-class Client(commands.Bot):
-    async def on_ready(self):
-        logger.create_log(category="bot", message=f"Logged on as {self.user}!")
-
-        try:
-            synced = await self.tree.sync(guild=GUILD_ID)
-            logger.create_log(category="bot", message=f"Synced {len(synced)} command(s) to guild {GUILD_ID}")
-        except Exception as e:
-            logger.create_log(category="bot", message=f"Error syncing commands: {e}")
+OWNER_ID = discord['owner_id']
+GUILD_ID = discord['guild_id']
+BOT_TOKEN = discord['bot_token']
 
 
-intents = discord.Intents.default()
-intents.message_content = True
-client = Client(command_prefix="!", intents=intents)
+bot = commands.Bot(default_guild_ids=[GUILD_ID], owner_id=OWNER_ID)
 
+@bot.event
+async def on_ready():
+    """
+    Runs setup for Discord Bot
+    """
+    logger.create_log(category="bot", message=f"Logged in as {bot.user} with owner: {OWNER_ID}")
 
-@client.tree.command(name="listservers", description="List all server instances", guild=GUILD_ID)
-async def list_servers(interaction: discord.Interaction):
-    all_servers = api_server.get_all_servers()
+    try:
+        sync_commands = bot.get_all_application_commands()
+        await bot.sync_all_application_commands()
+        logger.create_log(category="bot", message=f"Synced {len(sync_commands)} command(s) for guild: {GUILD_ID}")
+    except:
+        logger.create_log(category="bot", message=f"Unable to sync commands")
 
-    if all_servers:
-        embeds = []
-        for server in all_servers:
-            temp = discord.Embed(title=server['server_name'],
-                                 description=server['type'],
-                                 color=discord.Color.og_blurple())
+@bot.slash_command(name="echo", description="Echos the given input")
+async def echo(interaction: nextcord.Interaction, arg: str):
+    """
+    Repeats the message that you send as an argument
 
-            temp.add_field(name="Server ID", value=server['server_id'], inline=False)
-            temp.add_field(name="Server IP", value=server['server_ip'], inline=True)
-            temp.add_field(name="Server Port", value=server['server_port'], inline=True)
-            temp.add_field(name="Created", value=server['created'], inline=False)
-            embeds.append(temp)
-    
-        await interaction.response.send_message(embeds=embeds)
-    else:
-        await interaction.response.send_message(content="*There are no servers found*")
-    
+    Parameters
+    ----------
+    interaction: Interaction
+        The interaction object.
+    arg: str
+        The message to repeat. This is a required argument.
+    """
+    await interaction.response.send_message(content=f"You said: {arg}")
 
-@client.tree.command(name="listonline", description="List all online servers", guild=GUILD_ID)
-async def list_online(interaction: discord.Interaction):
-    all_servers = api_server.get_all_servers()
-    server_ids = [server['server_id'] for server in all_servers]
+@bot.slash_command(name="hello", description="Says 'Hello World!'")
+async def hello(interaction: nextcord.Interaction):
+    """
+    Simple command that responds with 'Hello World!'
 
-    online = select_online(server_ids=server_ids)
+    Parameters
+    ----------
+    interaction: Interaction
+        The interaction object.
+    """
+    await interaction.response.send_message(content="Hello World!")
 
-    if online:
-        embeds = []
-        for server in online:
-            server_info = server['server_id']
+@bot.slash_command(name="listservers", description="List all available servers")
+async def list_servers(interaction: nextcord.Interaction):
+    """
+    List all available servers from Crafty Controller. Sends response as list of Discord embeds.
 
-            temp = discord.Embed(title=server_info['server_name'],
-                                 description=server_info['type'],
-                                 color=discord.Color.og_blurple())
+    Parameters
+    ----------
+    interaction: Interaction
+        The interaction object.
+    """
+    servers = api_server.get_all_servers()
 
-            temp.add_field(name="Server ID", value=server_info['server_id'], inline=False)
-            temp.add_field(name="Server IP", value=server_info['server_ip'], inline=True)
-            temp.add_field(name="Server Port", value=server_info['server_port'], inline=True)
-            temp.add_field(name="Created", value=server_info['created'], inline=False)
-            embeds.append(temp)
+    embeds = []
+    for server in servers:
+        embed = nextcord.Embed(title=server['server_name'],
+                               description=server['type'],
+                               color=nextcord.Color.og_blurple())
+        embed.add_field(name="Server ID", value=server['server_id'], inline=False)
+        embed.add_field(name="Server IP", value=server['server_ip'], inline=True)
+        embed.add_field(name="Server Port", value=server['server_port'], inline=True)
+        embed.add_field(name="Created", value=server['created'], inline=False)
 
-        await interaction.response.send_message(embeds=embeds)
-    else:
-        await interaction.response.send_message(content="*There are no servers online right now*")
+        embeds.append(embed)
 
+    await interaction.response.send_message(embeds=embeds)
 
-@client.tree.command(name="printer", description="I will print whatever you give me!", guild=GUILD_ID)
-async def printer(interaction: discord.Interaction, printer: str):
-    await interaction.response.send_message(content=printer)
+@bot.slash_command(name="listonline", description="List online servers")
+async def list_online(interaction: nextcord.Interaction):
+    """
+    List all online servers from Crafty Controller. Sends response as Discord embed.
 
+    Parameters
+    ----------
+    interaction: Interaction
+        The interation object.
+    """
+    await interaction.response.send_message(content="*There are no servers online*")
 
-client.run(BOT_TOKEN)
+if __name__ == "__main__":
+    bot.run(BOT_TOKEN)

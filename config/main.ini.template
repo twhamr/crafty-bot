@@ -15,6 +15,7 @@ api_key = YOUR_CRAFTY_API_KEY
 
 # Discord
 [discord]
+owner_id = YOUR_USER_ID
 guild_id = YOUR_SERVER_ID
 bot_token = DISCORD_BOT_TOKEN
 
