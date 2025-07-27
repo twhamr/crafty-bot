@@ -19,5 +19,5 @@ Logging has configuration options within ./config/main.ini
 | type   | setting    | default_value | description                          |
 | :----: | :--------: | :-----------: | :----------------------------------: |
 | (bool) | enabled    | true          | logging on/off                       |
-| (str)  | root_path  | "./logs"      | directory path to save all log files |
+| (str)  | root_path  | ./app/logs    | directory path to save all log files |
 | (str)  | timezone   | system        | override timezone for timestamp      |
