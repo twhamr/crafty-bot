@@ -1,5 +1,4 @@
-from app.main.classes.api.servers import ServerRequests
-
+from app.main.classes.servers import ServerRequests
 from app.main.handlers.config_handler import ConfigHandler
 
 def main():

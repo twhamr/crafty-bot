@@ -1,5 +1,5 @@
 __pycache__
 
 venv/
-logs/*.log
-config/*.ini
+app/logs/*.log
+app/config/*.ini

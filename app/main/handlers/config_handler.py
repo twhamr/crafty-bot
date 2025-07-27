@@ -6,15 +6,15 @@ from app.main.handlers.file_handler import FileHandler
 
 class ConfigHandler(FileHandler):
     def __init__(self) -> None:
-        self.config_root_path = "./config"
+        self.root_path = "./app/config"
         self.parser = configparser.ConfigParser()
 
 
     def setup_main_config(self) -> None:
-        if not os.path.exists(path=f"{self.config_root_path}/main.ini"):
+        if not os.path.exists(path=f"{self.root_path}/main.ini"):
             writer = configparser.ConfigParser()
 
-            self.parser.read(filenames=f"{self.config_root_path}/main.ini.template")
+            self.parser.read(filenames=f"{self.root_path}/main.ini.template")
 
             template = {}
             for section in self.parser.sections():
@@ -24,7 +24,7 @@ class ConfigHandler(FileHandler):
             for section in template:
                 writer[section] = template[section]
 
-            with open(file=f"{self.config_root_path}/main.ini", mode="w") as file:
+            with open(file=f"{self.root_path}/main.ini", mode="w") as file:
                 writer.write(file)
 
             #print("Config file created")
@@ -33,6 +33,6 @@ class ConfigHandler(FileHandler):
     
 
     def read_config(self, section: str) -> dict[str, Any]:
-        self.parser.read(filenames=f"{self.config_root_path}/main.ini")
+        self.parser.read(filenames=f"{self.root_path}/main.ini")
 
         return dict(self.parser[section])
