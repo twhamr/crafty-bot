@@ -8,7 +8,7 @@ def main():
     server = ServerRequests()
     user = UserRequests()
 
-    #print(role.get_all_roles(ids="true"))
+    #print(user.get_user_public_data(user_id=1))
 
 
 if __name__ == "__main__":
