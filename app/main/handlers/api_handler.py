@@ -10,7 +10,7 @@ class APIHandler:
         self.config = ConfigHandler()
         self.logger = LogHandler()
 
-        api = self.config.read_api()
+        api = self.config.read_config(section="api")
 
         self.username = api['username']
         self.password = api['password']

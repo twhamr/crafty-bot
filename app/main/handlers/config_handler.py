@@ -32,19 +32,7 @@ class ConfigHandler(FileHandler):
             print("Config file already exists")
     
 
-    def read_api(self) -> dict[str, Any]:
+    def read_config(self, section: str) -> dict[str, Any]:
         self.parser.read(filenames=f"{self.config_root_path}/main.ini")
 
-        return dict(self.parser['api'])
-
-
-    def read_discord(self) -> dict[str, Any]:
-        self.parser.read(filenames=f"{self.config_root_path}/main.ini")
-
-        return dict(self.parser['discord'])
-
-
-    def read_logging(self) -> dict[str, Any]:
-        self.parser.read(filenames=f"{self.config_root_path}/main.ini")
-
-        return dict(self.parser['logging'])
+        return dict(self.parser[section])

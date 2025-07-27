@@ -9,7 +9,7 @@ class LogHandler(FileHandler):
     def __init__(self) -> None:
         self.config = ConfigHandler()
 
-        logs = self.config.read_logging()
+        logs = self.config.read_config(section="logging")
 
         self.log_root_path = logs['root_path']
 

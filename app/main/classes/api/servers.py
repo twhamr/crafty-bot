@@ -7,7 +7,7 @@ class ServerRequests(APIHandler):
     # ------ METHOD: GET ------
 
     # Get all servers
-    def get_all_servers(self) -> list[dict[str, Any]] | None:
+    def get_all_servers(self) -> list[dict[str, Any]]:
         """
         Get all servers' data.
 
@@ -34,10 +34,12 @@ class ServerRequests(APIHandler):
 
         if response['data']:
             return response['data']
+        
+        return [response]
 
 
     # Get a server
-    def get_server(self, server_id: str) -> dict[str, Any] | None:
+    def get_server(self, server_id: str) -> dict[str, Any]:
         """
         Get a server's details
 
@@ -66,6 +68,8 @@ class ServerRequests(APIHandler):
 
         if response['data']:
             return response['data']
+        
+        return response
 
     
     # Get a server's logs
@@ -95,6 +99,7 @@ class ServerRequests(APIHandler):
 
         return response
     
+    
     # Get a server's public data
     def get_server_public_data(self, server_id: str):
         # Set endpoint for API call
@@ -111,9 +116,10 @@ class ServerRequests(APIHandler):
                                     headers=headers)
 
         return response
+    
 
     # Get a server's statistics
-    def get_server_stats(self, server_id: str) -> dict[str, Any] | None:
+    def get_server_stats(self, server_id: str) -> dict[str, Any]:
         # Set endpoint for API call
         endpoint = f"/servers/{server_id}/stats"
 
@@ -129,6 +135,9 @@ class ServerRequests(APIHandler):
 
         if response['data']:
             return response['data']
+        
+        return response
+    
 
     # Get everyone with internal access to a server
     def get_server_access(self, server_id: str):
@@ -147,6 +156,7 @@ class ServerRequests(APIHandler):
 
         return response
 
+
     # Get all server webhooks
     def get_all_server_webhooks(self, server_id: str):
         # Set endpoint for API call
@@ -164,6 +174,7 @@ class ServerRequests(APIHandler):
 
         return response
 
+
     # Get webhook
     def get_webhook(self, server_id: str, webhook_id: int):
         # Set endpoint for API call
@@ -175,12 +186,14 @@ class ServerRequests(APIHandler):
             "Content-Type": "application/json"
         }
 
+
         # Make request using given parameters
         response = self.get_request(endpoint=endpoint,
                                     headers=headers)
 
         return response
     
+
     # ------ METHOD: POST ------
 
     # Create a server
@@ -327,6 +340,7 @@ class ServerRequests(APIHandler):
 
         return response
 
+
     # Send an action to a server
     # Actions = ["clone_server", "start_server", "stop_server", "restart_server", "kill_server", "backup_server", "update_executable"]
     def send_server_action(self, server_id: str, action: str):
@@ -345,6 +359,7 @@ class ServerRequests(APIHandler):
 
         return response
 
+
     # Send a STDIn command to a server
     def send_server_stdin_command(self, server_id: str, command: str):
         # Set endpoint for API call
@@ -362,6 +377,7 @@ class ServerRequests(APIHandler):
                                      body=command)
 
         return response
+
 
     # Create a schedule for a server
     # JSON schema: new_task
@@ -383,6 +399,7 @@ class ServerRequests(APIHandler):
 
         return response
     
+
     # Create a server webhook
     # JSON schema: create_webhook
     # TODO: untested
@@ -402,6 +419,7 @@ class ServerRequests(APIHandler):
                                      json_request=webhook_data)
 
         return response
+
 
     # Test a server webhook
     # TODO: untested
@@ -444,6 +462,7 @@ class ServerRequests(APIHandler):
 
         return response
 
+
     # Modify a schedule for a server
     # JSON schema: patch_task
     # TODO: untested
@@ -463,6 +482,7 @@ class ServerRequests(APIHandler):
                                       json_request=patch)
 
         return response
+
 
     # Modify a server webhook
     # JSON schema: patch_webhook
@@ -505,6 +525,7 @@ class ServerRequests(APIHandler):
 
         return response
     
+
     # Delete a schedule
     # TODO: untested
     def delete_schedule(self, server_id: str, task_id):
@@ -522,6 +543,7 @@ class ServerRequests(APIHandler):
                                        headers=headers)
 
         return response
+    
     
     # Delete webhook
     # TODO: untested

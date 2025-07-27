@@ -12,7 +12,7 @@ logger = LogHandler()
 
 api_server = ServerRequests()
 
-discord_info = config.read_discord()
+discord_info = config.read_config(section="discord")
 GUILD_ID = discord.Object(id=discord_info['guild_id'])
 BOT_TOKEN = discord_info['bot_token']
 
@@ -75,14 +75,16 @@ async def list_online(interaction: discord.Interaction):
     if online:
         embeds = []
         for server in online:
-            temp = discord.Embed(title=server['server_name'],
-                                 description=server['type'],
+            server_info = server['server_id']
+
+            temp = discord.Embed(title=server_info['server_name'],
+                                 description=server_info['type'],
                                  color=discord.Color.og_blurple())
 
-            temp.add_field(name="Server ID", value=server['server_id'], inline=False)
-            temp.add_field(name="Server IP", value=server['server_ip'], inline=True)
-            temp.add_field(name="Server Port", value=server['server_port'], inline=True)
-            temp.add_field(name="Created", value=server['created'], inline=False)
+            temp.add_field(name="Server ID", value=server_info['server_id'], inline=False)
+            temp.add_field(name="Server IP", value=server_info['server_ip'], inline=True)
+            temp.add_field(name="Server Port", value=server_info['server_port'], inline=True)
+            temp.add_field(name="Created", value=server_info['created'], inline=False)
             embeds.append(temp)
 
         await interaction.response.send_message(embeds=embeds)
