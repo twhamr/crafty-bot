@@ -5,7 +5,7 @@ import os
 
 from app.main.handlers.log_handler import LogHandler
 from app.main.handlers.config_handler import ConfigHandler
-from app.main.classes.servers import ServerRequests
+from app.main.api.servers import ServerRequests
 
 config = ConfigHandler()
 logger = LogHandler()

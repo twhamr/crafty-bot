@@ -1,6 +1,6 @@
 # ------ Libraries ------
 from typing import Any
-from app.main.classes.servers import ServerRequests
+from app.main.api.servers import ServerRequests
 
 
 # ------ Classes ------
