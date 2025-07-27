@@ -1,8 +1,10 @@
+# ------ Libraries ------
 from typing import Any
 
 from app.main.handlers.api_handler import APIHandler
 
 
+# ------ API: Servers ------
 class ServerRequests(APIHandler):
     # ------ METHOD: GET ------
 

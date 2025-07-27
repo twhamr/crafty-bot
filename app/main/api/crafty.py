@@ -1,7 +1,10 @@
+# ------ Libraries ------
 from typing import Any
 
 from app.main.handlers.api_handler import APIHandler
 
+
+# ------ API: Crafty ------
 class CraftyRequests(APIHandler):
     # ------ METHOD: PATCH ------
 
