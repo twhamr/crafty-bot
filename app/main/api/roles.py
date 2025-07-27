@@ -7,14 +7,14 @@ from app.main.handlers.api_handler import APIHandler
 # ------ API: Roles ------
 class RoleRequests(APIHandler):
     # Get all the roles
-    def get_all_roles(self, ids: bool = False) -> dict[str, Any]:
+    def get_all_roles(self, ids: str = "false") -> dict[str, Any]:
         """
         Get all roles
 
         Parameters
         ----------
-        ids: bool, optional
-            Return only role IDs [default=False]
+        ids: str, optional
+            Return only role IDs [default="false"]
 
         Returns
         -------
@@ -73,7 +73,7 @@ class RoleRequests(APIHandler):
         return response
 
     # Get a role's servers
-    def get_role_servers(self, role_id: int, ids: bool = False) -> dict[str, Any]:
+    def get_role_servers(self, role_id: int, ids: str = "false") -> dict[str, Any]:
         """
         Get a role's servers
 
@@ -81,8 +81,8 @@ class RoleRequests(APIHandler):
         ----------
         role_id: int
             Unique ID for the role
-        ids: bool, optional
-            Return only role IDs [default=False]
+        ids: str, optional
+            Return only role IDs [default="false"]
 
         Returns
         -------

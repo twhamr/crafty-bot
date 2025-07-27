@@ -37,7 +37,7 @@ class APIHandler:
         # If response returns successful
         if response.status_code == 200:
             self.logger.create_log(category="api",
-                                   message=f"{response.status_code} OK: successful response | endpoint={endpoint}")
+                                   message=f"{response.status_code} OK: successful response | endpoint={endpoint} | full_url={response.url}")
             
             return response.json()
         # If there was an error [400, 401, etc.]
@@ -68,7 +68,7 @@ class APIHandler:
         # If response returns successful
         if response.status_code == 200:
             self.logger.create_log(category="api",
-                                   message=f"{response.status_code} OK: successful response | endpoint={endpoint}")
+                                   message=f"{response.status_code} OK: successful response | endpoint={endpoint} | full_url={response.url}")
             
             return response.json()
         # If there was an error [400, 401, etc.]
