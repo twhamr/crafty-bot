@@ -5,7 +5,7 @@ All logs will be saved into this directory by default
 ## Formatting
 
 Logs will follow the following format:  
-* "[timestamp] [category] message"
+* "\[timestamp] \[category] message"
 
 ## Filenames
 
