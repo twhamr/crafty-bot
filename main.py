@@ -1,13 +1,14 @@
+from app.main.api.roles import RoleRequests
 from app.main.api.servers import ServerRequests
-from app.main.handlers.config_handler import ConfigHandler
+from app.main.api.users import UserRequests
 
 
 def main():
-    config = ConfigHandler()
+    role = RoleRequests()
     server = ServerRequests()
+    user = UserRequests()
 
-    #print(authentication.invalidate_sessions())
-    print(server.get_all_servers())
+    print(role.get_all_roles(ids=True))
 
 
 if __name__ == "__main__":

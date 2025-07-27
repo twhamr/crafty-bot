@@ -6,8 +6,6 @@ from app.main.handlers.api_handler import APIHandler
 
 # ------ API: Users ------
 class UserRequests(APIHandler):
-    # ------ METHOD: GET ------
-
     # Get all the users
     def get_all_users(self):
         # Set endpoint for API call
@@ -92,24 +90,3 @@ class UserRequests(APIHandler):
                                     headers=headers)
 
         return response
-
-
-    # ------ METHOD: POST ------
-
-    # Create a user
-    def create_user(self):
-        pass
-
-
-    # ------ METHOD: PATCH ------
-
-    # Modify a user
-    def modify_user(self):
-        pass
-
-
-    # ------ METHOD: DELETE ------
-    
-    # Delete a user
-    def delete_user(self):
-        pass

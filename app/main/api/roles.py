@@ -6,41 +6,136 @@ from app.main.handlers.api_handler import APIHandler
 
 # ------ API: Roles ------
 class RoleRequests(APIHandler):
-    # ------ METHOD: GET ------
-    
     # Get all the roles
-    def get_all_roles(self):
-        pass
+    def get_all_roles(self, ids: bool = False) -> dict[str, Any]:
+        """
+        Get all roles
+
+        Parameters
+        ----------
+        ids: bool, optional
+            Return only role IDs [default=False]
+
+        Returns
+        -------
+        response: dict[str, Any]
+            HTTP request response
+        """
+        # Set endpoint for API call
+        endpoint = "/roles"
+
+        # Set headers for request
+        headers = {
+            "Authorization": f"Bearer {self.api_key}",
+            "Content-Type": "application/json"
+        }
+
+        # Set query params
+        query = {
+            "ids": ids
+        }
+
+        # Make request using given parameters
+        response = self.get_request(endpoint=endpoint,
+                                    headers=headers,
+                                    query_params=query)
+        
+        return response
     
     # Get a role
-    def get_role(self):
-        pass
+    def get_role(self, role_id: int) -> dict[str, Any]:
+        """
+        Get a specified role
+
+        Parameters
+        ----------
+        role_id: int
+            Unique ID for the role
+
+        Returns
+        -------
+        response: dict[str, Any]
+            HTTP request response
+        """
+        # Set endpoint for API call
+        endpoint = f"/roles/{role_id}"
+
+        # Set headers for request
+        headers = {
+            "Authorization": f"Bearer {self.api_key}",
+            "Content-Type": "application/json"
+        }
+
+        # Make request using given parameters
+        response = self.get_request(endpoint=endpoint,
+                                    headers=headers)
+        
+        return response
 
     # Get a role's servers
-    def get_role_servers(self):
-        pass
+    def get_role_servers(self, role_id: int, ids: bool = False) -> dict[str, Any]:
+        """
+        Get a role's servers
+
+        Parameters
+        ----------
+        role_id: int
+            Unique ID for the role
+        ids: bool, optional
+            Return only role IDs [default=False]
+
+        Returns
+        -------
+        response: dict[str, Any]
+            HTTP request response
+        """
+        # Set endpoint for API call
+        endpoint = f"/roles/{role_id}/servers"
+
+        # Set headers for request
+        headers = {
+            "Authorization": f"Bearer {self.api_key}",
+            "Content-Type": "application/json"
+        }
+
+        # Set query params
+        query = {
+            "ids": ids
+        }
+
+        # Make request using given parameters
+        response = self.get_request(endpoint=endpoint,
+                                    headers=headers,
+                                    query_params=query)
+        
+        return response
 
     # Get a role's users
-    def get_role_users(self):
-        pass
+    def get_role_users(self, role_id: int) -> dict[str, Any]:
+        """
+        Get a role's users
 
+        Parameters
+        ----------
+        role_id: int
+            Unique ID for the role
 
-    # ------ METHOD: POST ------
+        Returns
+        -------
+        response: dict[str, Any]
+            HTTP request response
+        """
+        # Set endpoint for API call
+        endpoint = f"/roles/{role_id}/users"
 
-    # Create a role
-    def create_role(self):
-        pass
+        # Set headers for request
+        headers = {
+            "Authorization": f"Bearer {self.api_key}",
+            "Content-Type": "application/json"
+        }
 
-
-    # ------ METHOD: PATCH ------
-
-    # Modify a role
-    def modify_role(self):
-        pass
-
-
-    # ------ METHOD: DELETE ------
-
-    # Delete a role
-    def delete_role(self):
-        pass
+        # Make request using given parameters
+        response = self.get_request(endpoint=endpoint,
+                                    headers=headers)
+        
+        return response
