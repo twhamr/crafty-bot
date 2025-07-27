@@ -8,8 +8,6 @@ version = 0.0.0
 
 # Crafty API
 [api]
-username = YOUR_CRAFTY_USERNAME
-password = YOUR_CRAFTY_PASSWORD
 api_url = YOUR_CRAFTY_API_URL
 api_key = YOUR_CRAFTY_API_KEY
 

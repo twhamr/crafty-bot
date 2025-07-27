@@ -8,7 +8,7 @@ from app.main.handlers.api_handler import APIHandler
 class ServerRequests(APIHandler):
     # ------ Method: POST ------
     # Get all servers
-    def get_all_servers(self) -> list[dict[str, Any]]:
+    def get_all_servers(self) -> dict[str, Any]:
         """
         Get all servers' data.
 
@@ -18,8 +18,8 @@ class ServerRequests(APIHandler):
 
         Returns
         -------
-        list[dict[str, Any]]:
-            List of JSON serializable dictionaries containing servers and its data
+        response: dict[str, Any]
+            HTTP request response
         """
         # Set endpoint for API call
         endpoint = "/servers"
@@ -34,10 +34,7 @@ class ServerRequests(APIHandler):
         response = self.get_request(endpoint=endpoint,
                                     headers=headers)
         
-        if response['data']:
-            return response['data']
-        
-        return [response]
+        return response
 
 
     # Get a server
@@ -48,12 +45,12 @@ class ServerRequests(APIHandler):
         Parameters
         ----------
         server_id: str
-            Unique ID of the server
+            Unique ID for the server
 
         Returns
         -------
-        dict[str, Any]:
-            JSON serializable dictionary of the requested server
+        response: dict[str, Any]
+            HTTP request response
         """
         # Set endpoint for API call
         endpoint = f"/servers/{server_id}"
@@ -68,15 +65,33 @@ class ServerRequests(APIHandler):
         response = self.get_request(endpoint=endpoint,
                                     headers=headers)
 
-        if response['data']:
-            return response['data']
-        
         return response
 
     
     # Get a server's logs
     def get_server_logs(self, server_id: str, file: bool = False, colors: bool = False,
-                        raw: bool = False, html: bool = False):
+                        raw: bool = False, html: bool = False) -> dict[str, Any]:
+        """
+        Get a server's logs
+
+        Parameters
+        ----------
+        server_id: str
+            Unique ID for the server
+        file: bool, optional
+            Whether to read the log file or stdout [default=False]
+        colors: bool, optional
+            Whether to add HTML coloring or not [default=False]
+        raw: bool, optional
+            Whether to disable ANSI stripping or not [default=False]
+        html: bool, optional
+            Whether to output in HTML [default=False]
+        
+        Returns
+        -------
+        response: dict[str, Any]
+            HTTP request response
+        """
         # Set endpoint for API call
         endpoint = f"/servers/{server_id}/logs"
 
@@ -87,12 +102,16 @@ class ServerRequests(APIHandler):
         }
 
         # Set query params
-        query = {
-            "file": file,
-            "colors": colors,
-            "raw": raw,
-            "html": html
-        }
+        query = {}
+
+        if file:
+            query['file'] = "true"
+        if colors:
+            query['colors'] = "true"
+        if raw:
+            query['raw'] = "true"
+        if html:
+            query['html'] = "true"
 
         # Make request using given parameters
         response = self.get_request(endpoint=endpoint,
@@ -103,7 +122,20 @@ class ServerRequests(APIHandler):
     
     
     # Get a server's public data
-    def get_server_public_data(self, server_id: str):
+    def get_server_public_data(self, server_id: str) -> dict[str, Any]:
+        """
+        Get a server's public data
+
+        Parameters
+        ----------
+        server_id: str
+            Unique ID for the server
+
+        Returns
+        -------
+        response: dict[str, Any]
+            HTTP request response
+        """
         # Set endpoint for API call
         endpoint = f"/servers/{server_id}/public"
 
@@ -122,6 +154,19 @@ class ServerRequests(APIHandler):
 
     # Get a server's statistics
     def get_server_stats(self, server_id: str) -> dict[str, Any]:
+        """
+        Get a server's stats
+
+        Parameters
+        ----------
+        server_id: str
+            Unique ID for the server
+
+        Returns
+        -------
+        response: dict[str, Any]
+            HTTP request response
+        """
         # Set endpoint for API call
         endpoint = f"/servers/{server_id}/stats"
 
@@ -135,14 +180,24 @@ class ServerRequests(APIHandler):
         response = self.get_request(endpoint=endpoint,
                                     headers=headers)
 
-        if response['data']:
-            return response['data']
-        
         return response
     
 
     # Get everyone with internal access to a server
-    def get_server_access(self, server_id: str):
+    def get_server_access(self, server_id: str) -> dict[str, Any]:
+        """
+        Get users who have internal access to a server
+
+        Parameters
+        ----------
+        server_id: str
+            Unique ID for the server
+
+        Returns
+        -------
+        response: dict[str, Any]
+            HTTP request response
+        """
         # Set endpoint for API call
         endpoint = f"/servers/{server_id}/users"
 
@@ -160,7 +215,20 @@ class ServerRequests(APIHandler):
 
 
     # Get all server webhooks
-    def get_all_server_webhooks(self, server_id: str):
+    def get_all_server_webhooks(self, server_id: str) -> dict[str, Any]:
+        """
+        Get a server's webhooks
+
+        Parameters
+        ----------
+        server_id: str
+            Unique ID for the server
+
+        Returns
+        -------
+        response: dict[str, Any]
+            HTTP request response
+        """
         # Set endpoint for API call
         endpoint = f"/servers/{server_id}/webhook/"
 
@@ -178,7 +246,22 @@ class ServerRequests(APIHandler):
 
 
     # Get webhook
-    def get_webhook(self, server_id: str, webhook_id: int):
+    def get_webhook(self, server_id: str, webhook_id: int) -> dict[str, Any]:
+        """
+        Get a server's details
+
+        Parameters
+        ----------
+        server_id: str
+            Unique ID for the server
+        webhook_id: int
+            Unique ID for the webhook
+
+        Returns
+        -------
+        response: dict[str, Any]
+            HTTP request response
+        """
         # Set endpoint for API call
         endpoint = f"/servers/{server_id}/webhook/{webhook_id}"
 
@@ -199,7 +282,23 @@ class ServerRequests(APIHandler):
     # ------ Method: POST ------
     # Send an action to a server
     # Actions = ["clone_server", "start_server", "stop_server", "restart_server", "kill_server", "backup_server", "update_executable"]
-    def send_server_action(self, server_id: str, action: str):
+    def send_server_action(self, server_id: str, action: str) -> dict[str, Any]:
+        """
+        Send an action to a server  
+        ["clone_server", "start_server", "stop_server", "restart_server", "kill_server", "backup_server", "update_executable"]
+
+        Parameters
+        ----------
+        server_id: str
+            Unique ID of the server
+        action: str
+            Action to perform
+
+        Returns
+        -------
+        response: dict[str, Any]
+            HTTP request response
+        """
         # Set endpoint for API call
         endpoint = f"/servers/{server_id}/action/{action}"
 
@@ -217,7 +316,22 @@ class ServerRequests(APIHandler):
 
 
     # Send a STDIn command to a server
-    def send_server_stdin_command(self, server_id: str, command: str):
+    def send_server_stdin_command(self, server_id: str, command: str) -> dict[str, Any]:
+        """
+        Send a Minecraft command to a server
+
+        Parameters
+        ----------
+        server_id: str
+            Unique ID of the server
+        command: str
+            Command to execute
+
+        Returns
+        -------
+        response: dict[str, Any]
+            HTTP request response
+        """
         # Set endpoint for API call
         endpoint = f"/servers/{server_id}/stdin"
 

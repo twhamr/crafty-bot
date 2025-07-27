@@ -12,8 +12,6 @@ class APIHandler:
 
         api = self.config.read_config(section="api")
 
-        self.username = api['username']
-        self.password = api['password']
         self.api_key= api['api_key']
         self.host = api['api_url']        
         self.verify = False
@@ -45,7 +43,7 @@ class APIHandler:
             error = response.json()
 
             self.logger.create_log(category="api",
-                    message=f"{response.status_code} Error: {response.reason} | reason={error['error']} | details={error['error_data']}")
+                    message=f"{response.status_code} Error: {response.reason} | reason={error['error']} | details={error['error_data']} | full_url={response.url}")
             
             return error
     
@@ -58,7 +56,7 @@ class APIHandler:
                     body: str = "") -> dict[str, Any]:
         
         # Make the HTTP request
-        response = requests.get(url=(self.host + endpoint),
+        response = requests.post(url=(self.host + endpoint),
                                 headers=headers,
                                 params=query_params,
                                 json=json.dumps(json_request),
@@ -76,6 +74,6 @@ class APIHandler:
             error = response.json()
 
             self.logger.create_log(category="api",
-                    message=f"{response.status_code} Error: {response.reason} | reason={error['error']} | details={error['error_data']}")
+                    message=f"{response.status_code} Error: {response.reason} | reason={error['error']} | details={error['error_data']} | full_url={response.url}")
             
             return error
