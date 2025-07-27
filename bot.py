@@ -1,3 +1,4 @@
+# ------ Libraries ------
 from typing import Any
 import nextcord
 from nextcord.ext import commands
@@ -7,18 +8,19 @@ from app.main.handlers.log_handler import LogHandler
 from app.main.handlers.config_handler import ConfigHandler
 from app.main.api.servers import ServerRequests
 
+# ------ Classes ------
 config = ConfigHandler()
 logger = LogHandler()
-
 api_server = ServerRequests()
 
+# ------ Variables ------
 discord = config.read_config(section="discord")
 
 OWNER_ID = discord['owner_id']
 GUILD_ID = discord['guild_id']
 BOT_TOKEN = discord['bot_token']
 
-
+# ------ Discord: Bot Initialization ------
 bot = commands.Bot(default_guild_ids=[GUILD_ID], owner_id=OWNER_ID)
 
 @bot.event
