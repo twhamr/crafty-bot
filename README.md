@@ -13,7 +13,6 @@ As of 07/27/2025:
 There is alot of functionality that this Discord Bot provides:  
 * listing all servers
 * listing online servers
-* creating new servers
 * sending commands to running servers
 * view server logs
 * much more to come...
