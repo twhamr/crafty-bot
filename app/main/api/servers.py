@@ -32,8 +32,9 @@ class ServerRequests(APIHandler):
         }
 
         # Make request using given parameters
-        response = self.get_request(endpoint=endpoint, headers=headers)
-
+        response = self.get_request(endpoint=endpoint,
+                                    headers=headers)
+        
         if response['data']:
             return response['data']
         
