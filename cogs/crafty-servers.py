@@ -198,9 +198,28 @@ class Servers(commands.Cog):
     async def send_command(self, interaction: nextcord.Interaction,
                            command: str,
                            server_id: str = nextcord.SlashOption(name="servers", choices=sh.select_servers())):
-        sh.send_command(server_id=server_id, command=command)
+        """
+        Send a Minecraft command to a server
 
-        await interaction.response.send_message(content=f"Command [{command}] executed")
+        Parameters
+        ----------
+        interaction: Interaction
+            The interaction object.
+        command: str
+            Command to execute
+        server_id: str
+            Unique ID for the server
+        """
+        logger.create_log(category="bot", message=f"WARN: Command /sendcommand, was just used by {interaction.user}")
+
+        try:
+            sh.send_command(server_id=server_id, command=command)
+
+            await interaction.response.send_message(content=f"*Command [**{command}**] executed*")
+        except sh.CommandError as e:
+            logger.create_log(category="bot", message=f"ERROR: result [{e}] for command /sendcommand")
+            await interaction.response.send_message(content=f"*Command [**{command}**] has failed*")
+
 
 def setup(bot):
     bot.add_cog(Servers(bot=bot))

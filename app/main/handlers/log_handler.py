@@ -3,11 +3,10 @@ from datetime import datetime
 import pytz
 
 from app.main.handlers.config_handler import ConfigHandler
-from app.main.handlers.file_handler import FileHandler
 
 
 # ------ Handler: Logging ------
-class LogHandler(FileHandler):
+class LogHandler:
     def __init__(self) -> None:
         self.config = ConfigHandler()
 
@@ -33,7 +32,7 @@ class LogHandler(FileHandler):
             print(f"[{timestamp}] [{category}] {message}")
 
     def save_log(self, filename: str, log: str) -> None:
-        file_path = f"{self.log_root_path}/{self.normalize_filename(filename=filename)}"
+        file_path = f"{self.log_root_path}/{filename}"
 
         with open(file=file_path, mode="a") as log_file:
             log_file.write(log + "\n")
