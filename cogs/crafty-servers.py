@@ -174,24 +174,26 @@ class Servers(commands.Cog):
 
         try:
             servers = sh.pull_online()
-        
-            embeds = []
-            for server in servers:
-                embed = nextcord.Embed(title=server['server_name'],
-                                    description=server['type'],
-                                    color=nextcord.Color.green())
-                embed.add_field(name="Server ID", value=server['server_id'], inline=False)
-                embed.add_field(name="Players Online", value=server['online'], inline=True)
-                embed.add_field(name="CPU Usage", value=str(server['cpu']), inline=True)
-                embed.add_field(name="Memory Usage", value=server['mem'], inline=True)
-                embed.add_field(name="Started", value=server['started'], inline=False)
 
-                embeds.append(embed)
-            
-            await interaction.response.send_message(embeds=embeds)
+            if servers:
+                embeds = []
+                for server in servers:
+                    embed = nextcord.Embed(title=server['server_name'],
+                                        description=server['type'],
+                                        color=nextcord.Color.green())
+                    embed.add_field(name="Server ID", value=server['server_id'], inline=False)
+                    embed.add_field(name="Players Online", value=server['online'], inline=True)
+                    embed.add_field(name="CPU Usage", value=str(server['cpu']), inline=True)
+                    embed.add_field(name="Memory Usage", value=server['mem'], inline=True)
+                    embed.add_field(name="Started", value=server['started'], inline=False)
+
+                    embeds.append(embed)
+                
+                await interaction.response.send_message(embeds=embeds)
+            else:
+                await interaction.response.send_message(content="*There are no servers online*")
         except Exception as e:
             logger.create_log(category="bot", message=f"ERROR: result [{e}] for command /listonline")
-            await interaction.response.send_message(content="*There are no servers online*")
 
 
     @nextcord.slash_command(name="sendcommand", description="Send a Minecraft command to a server", guild_ids=[GUILD_ID])
