@@ -12,6 +12,14 @@ def main():
                    Just sit back and enjoy!
 ==================================================================
     """)
+    # Configuration Setup
+    print("-> Running configuration setup:")
+    if config.setup_main_config():
+        print("SUCCESS: Configuration file has been created")
+    else:
+        print("ERROR: Configuration file was not created, either it exists already or an error occured")
+
+
     # Ensuring directories exist
     print("-> Ensuring required directories exist:")
     if file.check_directory(dir="./app/config"):
@@ -23,15 +31,6 @@ def main():
         print("SUCCESS: logs directory exists")
     else:
         print("ERROR: logs directory does not exist, check logs for error")
-
-    # Configuration Setup
-    print("-> Running configuration setup:")
-    if config.setup_main_config():
-        print("SUCCESS: Configuration file has been created")
-    else:
-        print("ERROR: Configuration file was not created, either it exists already or an error occured")
-
-    
 
 
 if __name__ == "__main__":
