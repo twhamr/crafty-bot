@@ -6,14 +6,13 @@ This is a passion project that I came up with to showcase my proficiency in Pyth
 
 ### Notice
 As of 07/27/2025:  
-> This project is very much WIP and I will be adding more functionality for the Discord Bot until it accomplishes my needs. I am pausing work on the Discord Bot and pouring my effort into fully finishing integration for the Crafty Controller API. Also, senior year of college begins here soon so progess will slow down due to that. Will update when that gets finished!
+> This project is very much WIP and I will be adding more functionality for the Discord Bot on an as-needed basis. Also, senior year of college begins here soon so progess will slow down due to that. Will update when that gets finished!
 
 ## Functionality
 
 There is alot of functionality that this Discord Bot provides:  
 * listing all servers
 * listing online servers
-* creating new servers
 * sending commands to running servers
 * view server logs
 * much more to come...
