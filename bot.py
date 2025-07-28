@@ -28,14 +28,14 @@ async def on_ready():
     """
     Runs setup for Discord Bot
     """
-    logger.create_log(category="bot", message=f"Logged in as {bot.user} with owner: {OWNER_ID}")
+    logger.create_log(category="bot", message=f"INFO: Logged in as {bot.user} with owner: {OWNER_ID}")
 
     try:
         sync_commands = bot.get_all_application_commands()
         await bot.sync_all_application_commands()
-        logger.create_log(category="bot", message=f"Synced {len(sync_commands)} command(s) for guild: {GUILD_ID}")
+        logger.create_log(category="bot", message=f"INFO: Synced {len(sync_commands)} command(s) for guild: {GUILD_ID}")
     except:
-        logger.create_log(category="bot", message=f"Unable to sync commands")
+        logger.create_log(category="bot", message=f"ERROR: Unable to sync commands")
 
 @bot.slash_command(name="echo", description="Echos the given input")
 async def echo(interaction: nextcord.Interaction, arg: str):

@@ -11,9 +11,61 @@ import app.main.helpers.server_helper as sh
 config = ConfigHandler()
 logger = LogHandler()
 
+class ServerOptions(nextcord.ui.View):
+    def __init__(self, server_id: str) -> None:
+        super().__init__()
+        self.server_id = server_id
+        self.value = None
+
+    @nextcord.ui.button(label="Start", style=nextcord.ButtonStyle.green)
+    async def start_server(self, button: nextcord.ui.Button, interaction: nextcord.Interaction):
+        self.value = "start_server"
+        self.stop()
+
+    @nextcord.ui.button(label="Stop", style=nextcord.ButtonStyle.red)
+    async def stop_server(self, button: nextcord.ui.Button, interaction: nextcord.Interaction):
+        self.value = "stop_server"
+        self.stop()
+
+    @nextcord.ui.button(label="Restart", style=nextcord.ButtonStyle.blurple)
+    async def restart_server(self, button: nextcord.ui.Button, interaction: nextcord.Interaction):
+        self.value = "restart_server"
+        self.stop()
+
+class ServerList(nextcord.ui.Select):
+    def __init__(self):
+        servers = sh.pull_servers()
+
+        select_options = [
+            nextcord.SelectOption(label=server['server_name'], value=server['server_id']) for server in servers
+        ]
+
+        super().__init__(placeholder="Server Options:", min_values=1, max_values=1, options=select_options)
+
+    async def callback(self, interaction: nextcord.Interaction) -> None:
+        view = ServerOptions(server_id=self.values[0])
+
+        await interaction.response.send_message(content="What action would you like to perform: ", view=view)
+        await view.wait()
+
+        try:
+            sh.send_action(server_id=self.values[0], action=view.value) # type: ignore
+
+            logger.create_log(category="bot", message=f"WARN: action [{view.value}] was just performed on server with ID [{self.values[0]}]")
+            await interaction.response.send_message(content="*Action Succeeded*", ephemeral=False)
+        except Exception as e:
+            logger.create_log(category="bot", message=f"ERROR: result [{e}] for button {view.value}")
+            await interaction.response.send_message(content="*Action Failed*")
+
+
+class ServerDropdown(nextcord.ui.View):
+    def __init__(self):
+        super().__init__()
+        self.add_item(ServerList())
 
 # ------ Variables ------
 discord = config.read_config(section="discord")
+
 GUILD_ID = discord['guild_id']
 
 
@@ -33,26 +85,31 @@ class Servers(commands.Cog):
         interaction: Interaction
             The interaction object.
         """
-        logger.create_log(category="bot", message=f"Slash command: /listservers, was just used by {interaction.user}")
+        logger.create_log(category="bot", message=f"WARN: Command /listservers, was just used by {interaction.user}")
         
-        servers = sh.pull_servers()
+        try:
+            servers = sh.pull_servers()
 
-        if servers:
             embeds = []
             for server in servers:
                 embed = nextcord.Embed(title=server['server_name'],
                                     description=server['type'],
                                     color=nextcord.Color.og_blurple())
                 embed.add_field(name="Server ID", value=server['server_id'], inline=False)
-                embed.add_field(name="Server IP", value=server['server_ip'], inline=True)
-                embed.add_field(name="Server Port", value=server['server_port'], inline=True)
                 embed.add_field(name="Created", value=server['created'], inline=False)
 
                 embeds.append(embed)
 
             await interaction.response.send_message(embeds=embeds)
-        else:
+        except Exception as e:
+            logger.create_log(category="bot", message=f"ERROR: result [{e}] for command /listservers")
             await interaction.response.send_message(content="*There are no servers found*")
+
+    @nextcord.slash_command(name="selectserver", description="Provide a dropdown menu to select a server", guild_ids=[GUILD_ID])
+    async def select_server(self, interaction: nextcord.Interaction):
+        view = ServerDropdown()
+        await interaction.response.send_message("Select a server: ", view=view)
+        await view.wait()
 
 
     @nextcord.slash_command(name="listonline", description="List online servers", guild_ids=[GUILD_ID])
@@ -65,11 +122,11 @@ class Servers(commands.Cog):
         interaction: Interaction
             The interation object.
         """
-        logger.create_log(category="bot", message=f"Slash command: /listonline, was just used by {interaction.user}")
+        logger.create_log(category="bot", message=f"WARN: Command /listonline, was just used by {interaction.user}")
 
-        servers = sh.pull_online()
+        try:
+            servers = sh.pull_online()
         
-        if servers:
             embeds = []
             for server in servers:
                 embed = nextcord.Embed(title=server['server_name'],
@@ -84,7 +141,8 @@ class Servers(commands.Cog):
                 embeds.append(embed)
             
             await interaction.response.send_message(embeds=embeds)
-        else:
+        except Exception as e:
+            logger.create_log(category="bot", message=f"ERROR: result [{e}] for command /listonline")
             await interaction.response.send_message(content="*There are no servers online*")
 
 

@@ -6,8 +6,29 @@ from app.main.api.servers import ServerRequests
 # ------ Classes ------
 api_server = ServerRequests()
 
+class ActionError(Exception):
+    pass
+
 
 # ------ Functions ------
+def pull_server(server_id: str) -> dict[str, Any]:
+    """
+    Pull the public data for a server
+
+    Parameters
+    ----------
+    server_id: str
+        Unique ID for the server
+
+    Returns
+    -------
+    server.data: dict[str, Any]
+        Server public data stored in a dict
+    """
+    server = api_server.get_server_public_data(server_id=server_id)
+    
+    return server['data']
+
 def pull_servers() -> list[dict[str, Any]]:
     """
     Pull all servers from Crafty Controller
@@ -18,20 +39,13 @@ def pull_servers() -> list[dict[str, Any]]:
         List of servers
     """
     servers = []
-
-    raw_servers = api_server.get_all_servers()
-
-    for server in raw_servers:
-        temp = {}
-        temp['server_id'] = server['server_id']
-        temp['server_name'] = server['server_name']
-        temp['server_ip'] = server['server_ip']
-        temp['server_port'] = server['server_port']
-        temp['type'] = server['type']
-        temp['created'] = server['created']
-
-        servers.append(temp)
-
+    raw = api_server.get_all_servers()
+    
+    for server in raw['data']:
+        public_data = pull_server(server_id=server['server_id'])
+        
+        servers.append(public_data)
+    
     return servers
 
 
@@ -47,7 +61,7 @@ def pull_online() -> list[dict[str, Any]]:
     online = []
     servers = api_server.get_all_servers()
 
-    for server in servers:
+    for server in servers['data']:
         stats = api_server.get_server_stats(server_id=server['server_id'])
         
         if stats['running']:
@@ -64,3 +78,12 @@ def pull_online() -> list[dict[str, Any]]:
             online.append(temp)
 
     return online
+
+def send_action(server_id: str, action: str) -> None:
+    response = api_server.send_server_action(server_id=server_id, action=action)
+
+    try:
+        if response['status']:
+            pass
+    except:
+        raise ActionError(f"The action [{action}] has failed")
