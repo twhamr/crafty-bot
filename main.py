@@ -8,7 +8,7 @@ def main():
     server = ServerRequests()
     user = UserRequests()
 
-    print(server.get_server(server_id="11ce2e87-7e19-44d1-b639-ea03a67f8a19"))
+    print(server.get_server_stats(server_id="67ef8abb-86a5-4d34-bb28-b9b87c16e1ef"))
 
 
 if __name__ == "__main__":

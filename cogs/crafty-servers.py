@@ -11,6 +11,8 @@ import app.main.helpers.server_helper as sh
 config = ConfigHandler()
 logger = LogHandler()
 
+
+# View Class containing action buttons
 class ServerOptions(nextcord.ui.View):
     def __init__(self, server_id: str) -> None:
         super().__init__()
@@ -18,50 +20,86 @@ class ServerOptions(nextcord.ui.View):
         self.value = None
 
     @nextcord.ui.button(label="Start", style=nextcord.ButtonStyle.green)
-    async def start_server(self, button: nextcord.ui.Button, interaction: nextcord.Interaction):
+    async def start_server(self, button: nextcord.ui.Button, interaction: nextcord.Interaction) -> None:
+        """
+        **Discord Button:** when clicked, update *self.value* to 'start_server'.
+
+        Parameters
+        ----------
+        button: Button
+            The button object.
+        interaction: Interaction
+            The interaction object.
+        """
         self.value = "start_server"
         self.stop()
 
     @nextcord.ui.button(label="Stop", style=nextcord.ButtonStyle.red)
-    async def stop_server(self, button: nextcord.ui.Button, interaction: nextcord.Interaction):
+    async def stop_server(self, button: nextcord.ui.Button, interaction: nextcord.Interaction) -> None:
+        """
+        **Discord Button:** when clicked, update *self.value* to 'stop_server'.
+
+        Parameters
+        ----------
+        button: Button
+            The button object.
+        interaction: Interaction
+            The interaction object.
+        """
         self.value = "stop_server"
         self.stop()
 
     @nextcord.ui.button(label="Restart", style=nextcord.ButtonStyle.blurple)
-    async def restart_server(self, button: nextcord.ui.Button, interaction: nextcord.Interaction):
+    async def restart_server(self, button: nextcord.ui.Button, interaction: nextcord.Interaction) -> None:
+        """
+        **Discord Button:** when clicked, update *self.value* to 'restart_server'.
+
+        Parameters
+        ----------
+        button: Button
+            The button object.
+        interaction: Interaction
+            The interaction object.
+        """
         self.value = "restart_server"
         self.stop()
 
+
+# Select Class for selecting a server
 class ServerList(nextcord.ui.Select):
     def __init__(self):
-        servers = sh.pull_servers()
+        self.servers = sh.pull_servers()
 
         select_options = [
-            nextcord.SelectOption(label=server['server_name'], value=server['server_id']) for server in servers
+            nextcord.SelectOption(label=server['server_name'], value=server['server_id']) for server in self.servers
         ]
 
         super().__init__(placeholder="Server Options:", min_values=1, max_values=1, options=select_options)
 
-    async def callback(self, interaction: nextcord.Interaction) -> None:
+    async def callback(self, interaction: nextcord.Interaction):
         view = ServerOptions(server_id=self.values[0])
 
-        await interaction.response.send_message(content="What action would you like to perform: ", view=view)
+        await interaction.response.edit_message(content=f"What action would you like to perform for " +
+                                                f"**{[server['server_name'] for server in self.servers if server['server_id'] == self.values[0]][0]}**" +
+                                                ":", view=view)
         await view.wait()
 
         try:
             sh.send_action(server_id=self.values[0], action=view.value) # type: ignore
 
             logger.create_log(category="bot", message=f"WARN: action [{view.value}] was just performed on server with ID [{self.values[0]}]")
-            await interaction.response.send_message(content="*Action Succeeded*", ephemeral=False)
-        except Exception as e:
+            await interaction.edit_original_message(content="*Action Succeeded*", view=None)
+        except sh.ActionError as e:
             logger.create_log(category="bot", message=f"ERROR: result [{e}] for button {view.value}")
-            await interaction.response.send_message(content="*Action Failed*")
+            await interaction.edit_original_message(content="*Action Failed*", view=None)
 
 
+# Dropdown Class for selecting a server
 class ServerDropdown(nextcord.ui.View):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, *, timeout = 180):
+        super().__init__(timeout=timeout)
         self.add_item(ServerList())
+
 
 # ------ Variables ------
 discord = config.read_config(section="discord")
@@ -107,6 +145,16 @@ class Servers(commands.Cog):
 
     @nextcord.slash_command(name="selectserver", description="Provide a dropdown menu to select a server", guild_ids=[GUILD_ID])
     async def select_server(self, interaction: nextcord.Interaction):
+        """
+        Provide a dropdown for the user to select a server from Crafty Controller. Sends response as a Discord Dropdown.
+
+        Parameters
+        ----------
+        interaction: Interaction
+            The interaction object.
+        """
+        logger.create_log(category="bot", message=f"WARN: Command /selectserver, was just used by {interaction.user}")
+
         view = ServerDropdown()
         await interaction.response.send_message("Select a server: ", view=view)
         await view.wait()
@@ -145,6 +193,14 @@ class Servers(commands.Cog):
             logger.create_log(category="bot", message=f"ERROR: result [{e}] for command /listonline")
             await interaction.response.send_message(content="*There are no servers online*")
 
+
+    @nextcord.slash_command(name="sendcommand", description="Send a Minecraft command to a server", guild_ids=[GUILD_ID])
+    async def send_command(self, interaction: nextcord.Interaction,
+                           command: str,
+                           server_id: str = nextcord.SlashOption(name="servers", choices=sh.select_servers())):
+        sh.send_command(server_id=server_id, command=command)
+
+        await interaction.response.send_message(content=f"Command [{command}] executed")
 
 def setup(bot):
     bot.add_cog(Servers(bot=bot))
