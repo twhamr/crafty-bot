@@ -4,7 +4,7 @@
 # General
 [general]
 app_name = "CraftyBot"
-version = 0.0.0
+version = 1.0.0
 
 # Crafty API
 [api]
