@@ -1,3 +1,4 @@
+# ------ Libraries ------
 from typing import Any
 import requests
 import json
@@ -5,6 +6,8 @@ import json
 from app.main.handlers.config_handler import ConfigHandler
 from app.main.handlers.log_handler import LogHandler
 
+
+# ------ Handler: API ------
 class APIHandler:
     def __init__(self) -> None:
         self.config = ConfigHandler()

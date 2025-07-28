@@ -6,6 +6,7 @@ from app.main.handlers.api_handler import APIHandler
 
 # ------ API: Users ------
 class UserRequests(APIHandler):
+    # ------ Method: GET ------
     # Get all the users
     def get_all_users(self) -> dict[str, Any]:
         """

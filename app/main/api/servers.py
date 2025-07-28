@@ -6,7 +6,7 @@ from app.main.handlers.api_handler import APIHandler
 
 # ------ API: Servers ------
 class ServerRequests(APIHandler):
-    # ------ Method: POST ------
+    # ------ Method: GET ------
     # Get all servers
     def get_all_servers(self) -> dict[str, Any]:
         """

@@ -1,7 +1,10 @@
+# ------ Libraries ------
 import unicodedata
 import os
 import re
 
+
+# ------ Handler: Files ------
 class FileHandler:
     @staticmethod
     def normalize_filename(filename: str, max_length: int = 255) -> str:

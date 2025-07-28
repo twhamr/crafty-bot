@@ -1,9 +1,12 @@
+# ------ Libraries ------
 from typing import Any
 import configparser
 import os
 
 from app.main.handlers.file_handler import FileHandler
 
+
+# ------ Handler: Configuration ------
 class ConfigHandler(FileHandler):
     def __init__(self) -> None:
         self.root_path = "./app/config"

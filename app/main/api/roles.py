@@ -6,6 +6,7 @@ from app.main.handlers.api_handler import APIHandler
 
 # ------ API: Roles ------
 class RoleRequests(APIHandler):
+    # ------ Method: GET ------
     # Get all the roles
     def get_all_roles(self, ids: bool = False) -> dict[str, Any]:
         """
