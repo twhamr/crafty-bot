@@ -16,8 +16,8 @@ Files are created and saved per day, and each category has it's own file.
 ## Configuration
 
 Logging has configuration options within ./config/main.ini  
-| type   | setting    | default_value | description                          |
-| :----: | :--------: | :-----------: | :----------------------------------: |
-| (bool) | enabled    | true          | logging on/off                       |
-| (str)  | root_path  | ./app/logs    | directory path to save all log files |
-| (str)  | timezone   | system        | override timezone for timestamp      |
+| type   | setting    | default_value                      | description                                              |
+| :----: | :--------: | :--------------------------------: | :------------------------------------------------------: |
+| (bool) | enabled    | true                               | logging on/off                                           |
+| (str)  | root_path  | ./app/logs                         | directory path to save all log files                     |
+| (str)  | timezone   | America/Indiana/Indianapolis       | override timezone for timestamp, use pytz timezones      |

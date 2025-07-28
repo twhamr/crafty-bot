@@ -1,10 +1,12 @@
-from typing import Any
+# ------ Libraries ------
 from datetime import datetime
-import json
+import pytz
 
 from app.main.handlers.config_handler import ConfigHandler
 from app.main.handlers.file_handler import FileHandler
 
+
+# ------ Handler: Logging ------
 class LogHandler(FileHandler):
     def __init__(self) -> None:
         self.config = ConfigHandler()
@@ -12,16 +14,25 @@ class LogHandler(FileHandler):
         logs = self.config.read_config(section="logging")
 
         self.log_root_path = logs['root_path']
+        self.enabled = logs['enabled'].lower()
+        self.timezone = logs['timezone']
 
 
     def create_log(self, category: str, message: str) -> None:
-        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        if self.timezone == "system":
+            timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        else:
+            override = pytz.timezone(self.timezone)
+            timestamp = datetime.now(override).strftime("%Y-%m-%d %H:%M:%S")
+
         date = timestamp[:10]
         
-        #print(f"[{timestamp}] [{category}] {message}")
-        self.save_log(category=category, filename=f"{date}-{category}.log", log=f"[{timestamp}] [{category}] {message}")
+        if self.enabled == "true":
+            self.save_log(filename=f"{date}-{category}.log", log=f"[{timestamp}] [{category}] {message}")
+        else:
+            print(f"[{timestamp}] [{category}] {message}")
 
-    def save_log(self, category: str, filename: str, log: str) -> None:
+    def save_log(self, filename: str, log: str) -> None:
         file_path = f"{self.log_root_path}/{self.normalize_filename(filename=filename)}"
 
         with open(file=file_path, mode="a") as log_file:

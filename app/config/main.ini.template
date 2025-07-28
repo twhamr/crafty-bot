@@ -21,4 +21,4 @@ bot_token = DISCORD_BOT_TOKEN
 [logging]
 enabled = True
 root_path = ./app/logs
-timezone = TIMEZONE_OVERRIDE
+timezone = America/Indiana/Indianapolis
