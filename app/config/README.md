@@ -16,10 +16,10 @@ There are several configuration settings
 
 ### API
 
-| type   | setting  | default_value        | description                                                                   |
-| :----: | :------: | :------------------: | :---------------------------------------------------------------------------: |
-| (str)  | api_url  | YOUR_CRAFTY_API_URL  | the API url_path for Crafty Controller \["https://192.168.1.158:8443/api/v2]  |
-| (str)  | api_key  | YOUR_CRAFTY_API_KEY  | the API key for Crafty Controller                                             |
+| type   | setting  | default_value        | description                                                                    |
+| :----: | :------: | :------------------: | :----------------------------------------------------------------------------: |
+| (str)  | api_url  | YOUR_CRAFTY_API_URL  | the API url_path for Crafty Controller \["https://192.168.1.158:8443/api/v2"]  |
+| (str)  | api_key  | YOUR_CRAFTY_API_KEY  | the API key for Crafty Controller                                              |
 
 ### Discord
 
